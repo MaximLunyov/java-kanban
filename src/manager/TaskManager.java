@@ -1,9 +1,12 @@
+package manager;
+
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TaskManager {
     private int id;
@@ -32,8 +35,8 @@ public class TaskManager {
         return tasks.getOrDefault(id, null);
     }
 
-    public HashMap<Integer, Task> getTasks() {
-        return tasks;
+    public List<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
     public void deleteTask(int id) {
@@ -63,8 +66,8 @@ public class TaskManager {
         return epics.getOrDefault(id, null);
     }
 
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
+    public List<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     public void deleteEpic(int id) {
@@ -74,7 +77,6 @@ public class TaskManager {
             for (Integer subtaskId : epic.getEpicSubtasks()) {
                 subtasks.remove(subtaskId);
             }
-            epic.setEpicSubtasks(new ArrayList<>());
         }
     }
 
@@ -90,6 +92,16 @@ public class TaskManager {
         subtask.getEpic().getEpicSubtasks().add(id);
         checkEpicStatus(subtask.getEpic());
     }
+    public void getEpicSubtasks(int epicId) {
+        if (epics.containsKey(epicId)) {
+            if (!epics.isEmpty()) {
+                List<Integer> test = epics.get(epicId).getEpicSubtasks(); // список id субтасков;
+                for (Integer t : test) {
+                    System.out.println("Selected Epic`s subtask(s): " + subtasks.get(t));
+                }
+            }
+        }
+    }
 
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
@@ -100,8 +112,8 @@ public class TaskManager {
         return subtasks.getOrDefault(id, null);
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public List<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
     public void deleteSubtask(int id) {
@@ -113,6 +125,19 @@ public class TaskManager {
         }
     }
 
+
+    /*Попробовал сделать по твоей ремарке замену статусов в Эпиках,
+    * если проходить по циклу:
+    * subtacks.clear();
+    * for (Epic epic : epics.values()) {
+            checkEpicStatus(epic);
+        }
+        * выбивает ошибку NullPointer, проверил через дебагер, ошибка выскакивает из-за того,
+        * что при выполнении метода subtasks.clear() идет удаление всех сабтасков, но если вызвать метод
+        * epic.getEpicSubtasks().size() - выдаст не нулевое значение, напишет количество сабтасков до удаления.
+        * Подскажи пожалуйста, как с этим бороться, или я не так понял твое задание?
+        * */
+
     public void deleteAllSubtask() {
         ArrayList<Epic> epicsForStatusUpdate = new ArrayList<>();
         for (Subtask subtask : subtasks.values()) {
@@ -122,10 +147,12 @@ public class TaskManager {
             }
         }
         subtasks.clear();
+
         for (Epic epic : epicsForStatusUpdate) {
             epic.setStatus("NEW");
         }
     }
+
 
     //epicsStatusChecking
     private void checkEpicStatus(Epic epic) {
@@ -157,5 +184,7 @@ public class TaskManager {
         }
 
     }
+
+
 
 }

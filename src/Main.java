@@ -1,3 +1,4 @@
+import manager.TaskManager;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -28,6 +29,12 @@ public class Main {
         System.out.println("Tasks = " + taskManager.getTasks());
         System.out.println("Epics = " + taskManager.getEpics());
         System.out.println("Subtasks = " + taskManager.getSubtasks());
+
+        System.out.println("");
+
+            taskManager.getEpicSubtasks(5);
+
+
 
 
     }
