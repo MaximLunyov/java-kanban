@@ -92,15 +92,33 @@ public class TaskManager {
         subtask.getEpic().getEpicSubtasks().add(id);
         checkEpicStatus(subtask.getEpic());
     }
-    public void getEpicSubtasks(int epicId) {
+
+     /*     Возникла новая проблема: когда я вызываю return в конце метода epicSubtasks,
+            метод ничего не возвращает, выходит пустая строка в итоге.
+            Проверял через дебагер, список epicSubtasks заполняется корректно,
+            но при вызове return данного списка ничего не происходит.
+            Попробовал сделать по аналогии с другими public List<...> getSmth:
+            Завел HashMap<Integer, Subtack> epicSubtasks = new HashMap<>();
+            заполнил мапу субтасками по epicId,
+            возврат списка return new ArrayList<>(epicSubtasks.values());
+            но return все так же ничего не возвращает.
+            Не выходит разобраться самостоятельно в этом моменте, ты не могла бы подсказать как правильно
+            вернуть значение из списка? */
+
+    public List<Subtask> getEpicSubtasks(int epicId) {
+        List<Subtask> epicSubtasks = new ArrayList<>();
         if (epics.containsKey(epicId)) {
             if (!epics.isEmpty()) {
                 List<Integer> test = epics.get(epicId).getEpicSubtasks(); // список id субтасков;
                 for (Integer t : test) {
-                    System.out.println("Selected Epic`s subtask(s): " + subtasks.get(t));
+                    epicSubtasks.add(subtasks.get(t));
                 }
             }
         }
+        return epicSubtasks;
+    }
+    public List<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
     public void updateSubtask(Subtask subtask) {
@@ -112,10 +130,6 @@ public class TaskManager {
         return subtasks.getOrDefault(id, null);
     }
 
-    public List<Subtask> getSubtasks() {
-        return new ArrayList<>(subtasks.values());
-    }
-
     public void deleteSubtask(int id) {
         if (subtasks.containsKey(id)) {
             Epic epic = subtasks.get(id).getEpic();
@@ -125,31 +139,11 @@ public class TaskManager {
         }
     }
 
-
-    /*Попробовал сделать по твоей ремарке замену статусов в Эпиках,
-    * если проходить по циклу:
-    * subtacks.clear();
-    * for (Epic epic : epics.values()) {
-            checkEpicStatus(epic);
-        }
-        * выбивает ошибку NullPointer, проверил через дебагер, ошибка выскакивает из-за того,
-        * что при выполнении метода subtasks.clear() идет удаление всех сабтасков, но если вызвать метод
-        * epic.getEpicSubtasks().size() - выдаст не нулевое значение, напишет количество сабтасков до удаления.
-        * Подскажи пожалуйста, как с этим бороться, или я не так понял твое задание?
-        * */
-
-    public void deleteAllSubtask() {
-        ArrayList<Epic> epicsForStatusUpdate = new ArrayList<>();
-        for (Subtask subtask : subtasks.values()) {
-            subtask.getEpic().setEpicSubtasks(new ArrayList<>());
-            if (!epicsForStatusUpdate.contains(subtask.getEpic())) {
-                epicsForStatusUpdate.add(subtask.getEpic());
-            }
-        }
+    public void deleteAllSubtask() { //Спасибо за подсказку!
         subtasks.clear();
-
-        for (Epic epic : epicsForStatusUpdate) {
-            epic.setStatus("NEW");
+        for (Epic epic : epics.values()) {
+            epic.getEpicSubtasks().clear();
+            checkEpicStatus(epic);
         }
     }
 
@@ -157,7 +151,7 @@ public class TaskManager {
     //epicsStatusChecking
     private void checkEpicStatus(Epic epic) {
 
-        if (epic.getEpicSubtasks().size() == 0) {
+        if (epic.getEpicSubtasks().isEmpty()) {
             epic.setStatus("NEW");
             return;
         }

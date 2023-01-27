@@ -32,10 +32,8 @@ public class Main {
 
         System.out.println("");
 
-            taskManager.getEpicSubtasks(5);
-
-
-
+        taskManager.getEpicSubtasks(3);
+            //taskManager.getEpicSubtasks1(3);
 
     }
 }
