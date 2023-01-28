@@ -23,7 +23,7 @@ public class TaskManager {
 
     //Tasks
     public void addTask(Task task) {
-        task.setId(id++);
+        task.setId(++id);
         tasks.put(id, task);
     }
 
@@ -50,8 +50,8 @@ public class TaskManager {
     }
 
     //Epics
-    public void addEpic(Epic epic) {
-        epic.setId(id++);
+    public void addEpic(Epic epic) { // Спасибо за ссылку на информацию!
+        epic.setId(++id);
         epic.setStatus("NEW");
         epics.put(id, epic);
     }
@@ -87,32 +87,18 @@ public class TaskManager {
 
     //Subtasks
     public void addSubtask(Subtask subtask) {
-        subtask.setId(id++);
+        subtask.setId(++id);
         subtasks.put(id, subtask);
         subtask.getEpic().getEpicSubtasks().add(id);
         checkEpicStatus(subtask.getEpic());
     }
 
-     /*     Возникла новая проблема: когда я вызываю return в конце метода epicSubtasks,
-            метод ничего не возвращает, выходит пустая строка в итоге.
-            Проверял через дебагер, список epicSubtasks заполняется корректно,
-            но при вызове return данного списка ничего не происходит.
-            Попробовал сделать по аналогии с другими public List<...> getSmth:
-            Завел HashMap<Integer, Subtack> epicSubtasks = new HashMap<>();
-            заполнил мапу субтасками по epicId,
-            возврат списка return new ArrayList<>(epicSubtasks.values());
-            но return все так же ничего не возвращает.
-            Не выходит разобраться самостоятельно в этом моменте, ты не могла бы подсказать как правильно
-            вернуть значение из списка? */
-
     public List<Subtask> getEpicSubtasks(int epicId) {
         List<Subtask> epicSubtasks = new ArrayList<>();
         if (epics.containsKey(epicId)) {
-            if (!epics.isEmpty()) {
-                List<Integer> test = epics.get(epicId).getEpicSubtasks(); // список id субтасков;
-                for (Integer t : test) {
-                    epicSubtasks.add(subtasks.get(t));
-                }
+                List<Integer> epicSubtaskIds  = epics.get(epicId).getEpicSubtasks();
+                for (Integer id : epicSubtaskIds) {
+                    epicSubtasks.add(subtasks.get(id));
             }
         }
         return epicSubtasks;
