@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TaskManager {
 
-    List<Task> getHistory(); // тут
+    List<Task> getHistory();
 
     //Tasks
     void addTask(Task task);

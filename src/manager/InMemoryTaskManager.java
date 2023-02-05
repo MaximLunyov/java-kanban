@@ -14,20 +14,19 @@ public class InMemoryTaskManager implements TaskManager {
     private HashMap<Integer, Task> tasks;
     private HashMap<Integer, Subtask> subtasks;
     private HashMap<Integer, Epic> epics;
-    private List<Task> taskHistory;
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     public InMemoryTaskManager() {
         id = 0;
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
-        taskHistory = new ArrayList<>();
     }
 
 
     @Override
     public List<Task> getHistory() {
-        return taskHistory;
+        return historyManager.getHistory();
     }
 
     @Override
@@ -40,14 +39,9 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.put(task.getId(), task);
     }
     @Override
-    public Task getTask(int id) { //тут
-
-        if (taskHistory.size() < 10) {
-            taskHistory.add(tasks.getOrDefault(id, null));
-        } else {
-            taskHistory.remove(0);
-            taskHistory.add(tasks.getOrDefault(id, null));
-        }
+    public Task getTask(int id) {
+        final Task task = tasks.get(id);
+        historyManager.add(task);
 
         return tasks.getOrDefault(id, null);
 
@@ -81,14 +75,10 @@ public class InMemoryTaskManager implements TaskManager {
         checkEpicStatus(epic);
     }
     @Override
-    public Epic getEpic(int id) { //тут
+    public Epic getEpic(int id) {
+        final Task task = epics.get(id);
+        historyManager.add(task);
 
-        if (taskHistory.size() < 10) {
-            taskHistory.add(epics.getOrDefault(id, null));
-        } else {
-            taskHistory.remove(0);
-            taskHistory.add(epics.getOrDefault(id, null));
-        }
         return epics.getOrDefault(id, null);
     }
     @Override
@@ -140,14 +130,10 @@ public class InMemoryTaskManager implements TaskManager {
         checkEpicStatus(subtask.getEpic());
     }
     @Override
-    public Subtask getSubtask(int id) { //тут
+    public Subtask getSubtask(int id) {
+        final Task task = subtasks.get(id);
+        historyManager.add(task);
 
-        if (taskHistory.size() < 10) {
-            taskHistory.add(subtasks.getOrDefault(id, null));
-        } else {
-            taskHistory.remove(0);
-            taskHistory.add(subtasks.getOrDefault(id, null));
-        }
         return subtasks.getOrDefault(id, null);
     }
     @Override
