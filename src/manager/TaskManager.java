@@ -7,6 +7,7 @@ import tasks.Task;
 import java.util.List;
 
 public interface TaskManager {
+    void remove(int id);
 
     List<Task> getHistory();
 
@@ -20,6 +21,8 @@ public interface TaskManager {
     List<Task> getTasks();
 
     void deleteTask(int id);
+
+    void showTasks();
 
     void deleteAllTasks();
 
@@ -53,5 +56,6 @@ public interface TaskManager {
 
     //epicsStatusChecking
     void checkEpicStatus(Epic epic);
+
 
 }
