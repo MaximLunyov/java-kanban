@@ -29,12 +29,8 @@ public class Main {
 
         Epic epic2 = new Epic("Работа");
         taskManager.addEpic(epic2);
-
         taskManager.getTask(2);
-        System.out.println(taskManager.getHistory());
-
         taskManager.getTask(1);
-        System.out.println(taskManager.getHistory());
 
         taskManager.getTask(2);
         System.out.println(taskManager.getHistory());
@@ -49,10 +45,8 @@ public class Main {
         System.out.println(taskManager.getHistory());
 
         taskManager.deleteEpic(3);
+        taskManager.deleteAllTasks();
         System.out.println(taskManager.getHistory());
-
-
-
 
     }
 }

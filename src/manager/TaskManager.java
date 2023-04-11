@@ -7,7 +7,6 @@ import tasks.Task;
 import java.util.List;
 
 public interface TaskManager {
-    void remove(int id);
 
     List<Task> getHistory();
 
