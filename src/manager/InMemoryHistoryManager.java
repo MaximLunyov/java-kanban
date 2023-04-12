@@ -26,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         this.receivedTasks = new HashMap<>();
     }
 
-    public void linkLast(Task task) {
+    private void linkLast(Task task) {
         final Node node = new Node(tail, task,  null);
         if (head == null) {
             head = node;
@@ -36,7 +36,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         tail = node;
     }
 
-    public void removeNode(Node node) {
+    private void removeNode(Node node) {
         if (node == null) {
             return;
         }
@@ -60,7 +60,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             }
         }
 
-    public List<Task> getTasks() {
+    private List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
         Node currentNode = head;
         while (currentNode != null) {
@@ -74,35 +74,22 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        /*if (node == null) { //Приветствую, Патимат! Заменил блок if, как ты указала в ревью,
-            return;           //но блок кода в таком случае не выполняется, IDEA подсказывает,
-        }                     //что не может распознать node. Я не понимаю, как реализовать проверку.
-        remove(task.getId()); //Подскажи пожалуйста, как правильно это сделать?
-        linkLast(task);
-        receivedTasks.put(task.getId(), tail);*/
-
-        if (!(task == null)) {
+        if (task == null) {
+            return;
+        }
             remove(task.getId());
             linkLast(task);
             receivedTasks.put(task.getId(), tail);
         }
-    }
+
 
     @Override
     public void remove(int id) {
-        removeNode(receivedTasks.get(id));
+        removeNode(receivedTasks.remove(id));
     }
 
     @Override
     public List<Task> getHistory() {
         return getTasks();
-    }
-
-    @Override
-    public void removeAllHistory() {
-        for (Integer ids : receivedTasks.keySet()) {
-            remove(ids);
-        }
-
     }
 }
