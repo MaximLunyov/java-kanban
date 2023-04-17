@@ -4,12 +4,16 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
-
+    HashMap<Integer, Task> getTasksMap();
+    HashMap<Integer, Epic> getEpicsMap();
+    HashMap<Integer, Subtask> getSubtasksMap();
     List<Task> getHistory();
 
+    List<String> historyForFile();
     //Tasks
     void addTask(Task task);
 

@@ -3,13 +3,14 @@ package tasks;
 public class Subtask extends Task {
     private Epic epic;
 
-    public Subtask(String title, Status status) {
-        super(title, status);
+    public Subtask(String title, String description, Status status) {
+        super(title, description ,status);
     }
 
-    public Subtask(String title,  Status status, Epic epic) {
-        super(title, status);
+    public Subtask(String title, String description, Status status, Epic epic) {
+        super(title, description, status);
         this.epic = epic;
+        this.taskTypeList = TaskTypeList.SUBTASK;
     }
 
     public Epic getEpic() {
@@ -27,5 +28,10 @@ public class Subtask extends Task {
                 ", Название='" + title + '\'' +
                 ", Статус='" + status + '\'' +
                 '}';
+    }
+
+    @Override
+    public String toStringFromFile() {
+        return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, epic.getId());
     }
 }

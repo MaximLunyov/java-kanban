@@ -5,6 +5,11 @@ public class Task {
     protected String title;
     protected Status status;
     protected String description;
+    protected TaskTypeList taskTypeList;
+
+    public String getTitle() {
+        return title;
+    }
 
     public String getDescription() {
         return description;
@@ -14,9 +19,11 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String title, Status status) {
+    public Task(String title, String description, Status status) {
         this.title = title;
+        this.description = description;
         this.status = status;
+        this.taskTypeList = TaskTypeList.TASK;
     }
 
     public int getId() {
@@ -33,6 +40,10 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String toStringFromFile() {
+        return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, "");
     }
 
     @Override
