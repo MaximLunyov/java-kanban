@@ -21,17 +21,9 @@ public class Subtask extends Task {
         this.epic = epic;
     }
 
-    @Override
-    public String toString() {
-        return "Подзадача{" +
-                "№=" + id +
-                ", Название='" + title + '\'' +
-                ", Статус='" + status + '\'' +
-                '}';
-    }
 
     @Override
-    public String toStringFromFile() {
+    public String toString() {
         return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, epic.getId());
     }
 }

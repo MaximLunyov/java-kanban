@@ -22,7 +22,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public FileBackedTasksManager(File file) {
         this.file = file;
 
-        fileName = "C:\\Users\\Laptop\\IdeaProjects\\java-kanban\\workHistory.csv";
+        fileName = "workHistory.csv";
 
         file = new File(fileName);
         if (!file.isFile()) {
@@ -52,7 +52,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         title = parts[2];
                         status = parts[3];
                         description = parts[4];
-                        Task task = new Task(title, description, checkStatus(status));
+                        Task task = new Task(title, description, Status.valueOf(status));
                         addTask(task);
                     } else if (!isEmptyLine && parts[1].equals("EPIC")) {
                         title = parts[2];
@@ -64,7 +64,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         status = parts[3];
                         description = parts[4];
                         subtaskEpic = parts[5];
-                        Subtask subtask = new Subtask(title, description, checkStatus(status), super.getEpic(Integer.parseInt(subtaskEpic)));
+                        Subtask subtask = new Subtask(title, description, Status.valueOf(status),
+                                super.getEpic(Integer.parseInt(subtaskEpic)));
                         addSubtask(subtask);
                     }
                 }
@@ -72,18 +73,49 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    public Status checkStatus(String status) {
-        Status status1 = Status.NEW;
-        if (status.equals("NEW")) {
-            status1 = Status.NEW;
+    Task fromString(String value) {
+        return null;
+    }
+
+
+    static List<Integer> historyFromString(String value) {
+        return null;
+    }
+    /*Привет, Патимат!
+    Хотел бы поблагодарить тебя за ответы на вопросы и помощь с кодом в ревью в прошлых Спринтах.
+
+    Исправил все недочеты, указанные тобой в прошлом ревью, кроме пункта с методом loadFromFile(File file).
+    Уже довольно долго сижу над кодом, но не могу понять как правильно реализовать загрузку файла методом loadfFromFile,
+    а не автоматически при запуске менеджера во время старта программы, как я сделал изначально.
+    Как я понимаю, я должен вызвать статический метод, который мне вернет ранее созданный файл и дальше я его должен
+    его прогнать через методы Task fromString(String value) и historyFromString(String value),
+    чтобы заполнить менеджер данными из истории. Или же я понимаю не правильно?
+
+    Пробовал сделать подобным образом:
+    public static FileBackedTasksManager loadFromFile(File file) {
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
+        String data;
+        try {
+
+            data = Files.readString(Path.of(Path.of(file.getAbsolutePath()));
+
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка чтения файла.");
         }
-        if (status.equals("NEW")) {
-            status1 = Status.IN_PROGRESS;
-        }
-        if (status.equals("NEW")) {
-            status1 = Status.DONE;
-        }
-        return status1;
+        String[] lines = data.split("\n");
+
+        return fileBackedTasksManager;
+    }
+
+    Но данный код выбивает ошибку чтения файла.
+    И не могу понять логику вызова метода loadFromFile - он должен вызываться автоматически при старте программы вместе
+    с taskManager или же нужно вызвать отдельно класс FileBackedTasksManager fileBackedTasksManager
+     = new FileBackedTasksManager(file), но в данном случае файл читается, но в него не идет запись из taskManager.
+    Получился замкнутый круг, подскажи пожалуйста, как правильно из него выйти?
+    */
+
+    static FileBackedTasksManager loadFromFile(File file) {
+        return null;
     }
 
     public String readFileContentsOrNull(String path) {
@@ -95,36 +127,25 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-
-    @Override
-    public List<Task> getHistory() {
-        return super.getHistory();
-    }
-
-    @Override
-    public List<String> historyForFile() {
-        return super.historyForFile();
-    }
-
     public void save() {
-        try (Writer writer = new FileWriter(file)) {
+        try (Writer writer = new FileWriter("workHistory.csv")) {
 
             writer.write("id,type,name,status,description,epic\n");
             HashMap<Integer, String> allTasks = new HashMap<>();
 
             HashMap<Integer, Task> tasks = super.getTasksMap();
             for (Integer id : tasks.keySet()) {
-                allTasks.put(id, tasks.get(id).toStringFromFile());
+                allTasks.put(id, tasks.get(id).toString());
             }
 
             HashMap<Integer, Epic> epics = super.getEpicsMap();
             for (Integer id : epics.keySet()) {
-                allTasks.put(id, epics.get(id).toStringFromFile());
+                allTasks.put(id, epics.get(id).toString());
             }
 
             HashMap<Integer, Subtask> subtasks = super.getSubtasksMap();
             for (Integer id : subtasks.keySet()) {
-                allTasks.put(id, subtasks.get(id).toStringFromFile());
+                allTasks.put(id, subtasks.get(id).toString());
             }
 
 
@@ -133,14 +154,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             }
             writer.write("\n");
 
-            for (int i = 0; i < historyForFile().size(); i++) {
-                writer.write(historyForFile().get(i) + ",");
+            List<Task> history = super.getHistory();
+            for (int i = 0; i < history.size(); i++) {
+                writer.write(history.get(i).getId() + ",");
             }
 
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка записи файла.");
         }
     }
+
+
+
 
     @Override
     public void addTask(Task task) {
@@ -149,10 +174,27 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Task getTask(int id) {
-        Task task = super.getTask(id);
+    public void updateTask(Task task) {
+        super.updateTask(task);
         save();
-        return task;
+    }
+
+    @Override
+    public Task getTask(int id) {
+        save();
+        return super.getTask(id);
+    }
+
+    @Override
+    public void deleteTask(int id) {
+        super.deleteTask(id);
+        save();
+    }
+
+    @Override
+    public void deleteAllTasks() {
+        super.deleteAllTasks();
+        save();
     }
 
     @Override
@@ -162,10 +204,27 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Epic getEpic(int id) {
-        Epic epic = super.getEpic(id);
+    public void updateEpic(Epic epic) {
+        super.updateEpic(epic);
         save();
-        return epic;
+    }
+
+    @Override
+    public Epic getEpic(int id) {
+        save();
+        return super.getEpic(id);
+    }
+
+    @Override
+    public void deleteEpic(int id) {
+        super.deleteEpic(id);
+        save();
+    }
+
+    @Override
+    public void deleteAllEpics() {
+        super.deleteAllEpics();
+        save();
     }
 
     @Override
@@ -175,11 +234,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Subtask getSubtask(int id) {
-        Subtask subtask = super.getSubtask(id);
+    public void updateSubtask(Subtask subtask) {
+        super.updateSubtask(subtask);
         save();
-        return subtask;
     }
 
+    @Override
+    public Subtask getSubtask(int id) {
+        save();
+        return super.getSubtask(id);
+    }
 
+    @Override
+    public void deleteSubtask(int id) {
+        super.deleteSubtask(id);
+        save();
+    }
+
+    @Override
+    public void deleteAllSubtask() {
+        super.deleteAllSubtask();
+        save();
+    }
 }

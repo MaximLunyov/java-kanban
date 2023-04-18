@@ -15,7 +15,6 @@ public class Main {
         Task task2 = new Task("Купить продукты", "описание2",Status.IN_PROGRESS);
         taskManager.addTask(task2);
 
-
         Epic epic1 = new Epic("Охота", "Поиск дичи");
         taskManager.addEpic(epic1);
 

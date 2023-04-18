@@ -26,15 +26,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         this.receivedTasks = new HashMap<>();
     }
 
-    public List<String> historyForFile() {
-        List<String> test = new ArrayList<>();
-        for (Integer eqw : receivedTasks.keySet()) {
-            test.add(eqw.toString());
-        }
-        return test;
-    }
-
-
     private void linkLast(Task task) {
         final Node node = new Node(tail, task,  null);
         if (head == null) {

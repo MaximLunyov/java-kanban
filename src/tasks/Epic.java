@@ -20,14 +20,5 @@ public class Epic extends Task {
         this.epicSubtasks = epicSubtasks;
     }
 
-    @Override
-    public String toString() {
-        return "Эпик{" +
-                "№=" + id +
-                ", Название='" + title + '\'' +
-                ", Статус='" + status + '\'' +
-                '}';
-    }
-
 
 }

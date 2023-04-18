@@ -42,16 +42,9 @@ public class Task {
         this.id = id;
     }
 
-    public String toStringFromFile() {
-        return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, "");
-    }
 
     @Override
     public String toString() {
-        return "ЗАДАЧА{" +
-                "№=" + id +
-                ", Название='" + title + '\'' +
-                ", Статус='" + status + '\'' +
-                '}';
+        return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, "");
     }
 }

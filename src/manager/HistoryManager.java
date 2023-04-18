@@ -9,6 +9,5 @@ public interface HistoryManager {
 
     List<Task> getHistory();
 
-    List<String> historyForFile();
 }
 

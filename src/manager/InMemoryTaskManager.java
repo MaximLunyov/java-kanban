@@ -46,12 +46,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<String> historyForFile() {
-        return historyManager.historyForFile();
-    }
-
-
-    @Override
     public void addTask(Task task) {
         task.setId(++id);
         tasks.put(id, task);

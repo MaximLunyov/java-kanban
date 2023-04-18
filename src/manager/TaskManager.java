@@ -13,7 +13,6 @@ public interface TaskManager {
     HashMap<Integer, Subtask> getSubtasksMap();
     List<Task> getHistory();
 
-    List<String> historyForFile();
     //Tasks
     void addTask(Task task);
 
