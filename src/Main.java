@@ -4,8 +4,6 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
@@ -29,21 +27,17 @@ public class Main {
         taskManager.addEpic(epic2);
         taskManager.getTask(2);
 
-        System.out.println(taskManager.getHistory());
-
         taskManager.getEpic(3);
-        System.out.println(taskManager.getHistory());
 
         taskManager.getEpicSubtasks(3);
-        System.out.println(taskManager.getHistory());
-
-        System.out.println(taskManager.getHistory());
-
 
         taskManager.getTask(1);
-        System.out.println(taskManager.getHistory());
+
         Task task3 = new Task("ЧТо-то", "desk", Status.IN_PROGRESS);
         taskManager.addTask(task3);
 
+        /*for (int i = 0; i < 50; i++) { //тест истории
+            System.out.println(taskManager.getTask(i) + " " + i);
+        }*/
     }
 }

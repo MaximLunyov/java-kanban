@@ -7,6 +7,11 @@ public class Task {
     protected String description;
     protected TaskTypeList taskTypeList;
 
+
+    public TaskTypeList getTaskTypeList() {
+        return taskTypeList;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -24,6 +29,15 @@ public class Task {
         this.description = description;
         this.status = status;
         this.taskTypeList = TaskTypeList.TASK;
+        this.id = id;
+    }
+
+    public Task(String title, String description, Status status, int id) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.taskTypeList = TaskTypeList.TASK;
+        this.id = id;
     }
 
     public int getId() {

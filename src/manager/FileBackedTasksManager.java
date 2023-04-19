@@ -2,15 +2,13 @@ package manager;
 
 import exeptions.ManagerCreateException;
 import exeptions.ManagerSaveException;
-import tasks.Epic;
-import tasks.Status;
-import tasks.Subtask;
-import tasks.Task;
+import tasks.*;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
@@ -21,111 +19,113 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public FileBackedTasksManager(File file) {
         this.file = file;
-
-        fileName = "workHistory.csv";
-
+        fileName = file.getName();
         file = new File(fileName);
-        if (!file.isFile()) {
-            try {
-                Path path = Files.createFile(Paths.get(fileName));
-            } catch (IOException e) {
-                throw new ManagerCreateException("Ошибка! Файл не может быть создан." + e);
-            }
-        } else {
-            String content = readFileContentsOrNull(fileName);
-            String[] lines = content.split("\r?\n");
-            boolean isEmptyLine = false;
-            for (int i = 1; i < lines.length; i++) {
-                String line = lines[i];
-                String[] parts = line.split(",");
-
-                if (parts[0] != null) {
-                    if (parts[0].equals("")) {
-                    isEmptyLine = true;
-                    }
-                    String title;
-                    String status;
-                    String description;
-                    String subtaskEpic;
-
-                    if (!isEmptyLine && parts[1].equals("TASK")) {
-                        title = parts[2];
-                        status = parts[3];
-                        description = parts[4];
-                        Task task = new Task(title, description, Status.valueOf(status));
-                        addTask(task);
-                    } else if (!isEmptyLine && parts[1].equals("EPIC")) {
-                        title = parts[2];
-                        description = parts[4];
-                        Epic epic = new Epic(title, description);
-                        addEpic(epic);
-                    } else if (!isEmptyLine && parts[1].equals("SUBTASK")) {
-                        title = parts[2];
-                        status = parts[3];
-                        description = parts[4];
-                        subtaskEpic = parts[5];
-                        Subtask subtask = new Subtask(title, description, Status.valueOf(status),
-                                super.getEpic(Integer.parseInt(subtaskEpic)));
-                        addSubtask(subtask);
-                    }
+            if (!file.isFile()) {
+                try {
+                    Files.createFile(Path.of(fileName));
+                } catch (IOException e) {
+                    throw new ManagerCreateException("Ошибка! Файл не может быть создан." + e);
                 }
+            } else {
+                loadFromFile(this, file);
             }
-        }
     }
-
-    Task fromString(String value) {
-        return null;
-    }
-
 
     static List<Integer> historyFromString(String value) {
-        return null;
+        ArrayList<Integer> ids = new ArrayList<>();
+        String[] work = value.split(",");
+        for (String t : work) {
+            ids.add(Integer.parseInt(t));
+        }
+        return ids;
     }
-    /*Привет, Патимат!
-    Хотел бы поблагодарить тебя за ответы на вопросы и помощь с кодом в ревью в прошлых Спринтах.
+    //Привет, Патимат! Спасибо большое за ответ на мои вопросы в ревью. Стало намного понятнее:)
+    public static FileBackedTasksManager loadFromFile(FileBackedTasksManager taskManager, File file) {
 
-    Исправил все недочеты, указанные тобой в прошлом ревью, кроме пункта с методом loadFromFile(File file).
-    Уже довольно долго сижу над кодом, но не могу понять как правильно реализовать загрузку файла методом loadfFromFile,
-    а не автоматически при запуске менеджера во время старта программы, как я сделал изначально.
-    Как я понимаю, я должен вызвать статический метод, который мне вернет ранее созданный файл и дальше я его должен
-    его прогнать через методы Task fromString(String value) и historyFromString(String value),
-    чтобы заполнить менеджер данными из истории. Или же я понимаю не правильно?
-
-    Пробовал сделать подобным образом:
-    public static FileBackedTasksManager loadFromFile(File file) {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
-        String data;
+        String[] lines;
         try {
-
-            data = Files.readString(Path.of(Path.of(file.getAbsolutePath()));
-
+            final String csv = Files.readString(file.toPath());
+            lines = csv.split(System.lineSeparator());
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка чтения файла.");
         }
-        String[] lines = data.split("\n");
 
-        return fileBackedTasksManager;
+        String li = lines[0];
+        String[] work = li.split("\r?\n");
+        List<Integer> listOfIds = new ArrayList<>();
+
+        for (int i = 1; i < work.length; i++) {
+            String line = work[i];
+            if (!line.isEmpty() && line.contains("TASK")) {
+                final Task task = taskFromString(line, taskManager);
+                if (task.getTaskTypeList().equals(TaskTypeList.TASK)) {
+                    listOfIds.add(task.getId());
+                    taskManager.addTask(task);
+                }
+            }
+
+            if (!line.isEmpty() && line.contains("EPIC")) {
+                final Epic epic = (Epic) taskFromString(line, taskManager);
+                if (epic.getTaskTypeList().equals(TaskTypeList.EPIC)) {
+                    listOfIds.add(epic.getId());
+                    taskManager.addEpic(epic);
+                }
+            }
+
+            if (!line.isEmpty() && line.contains("SUBTASK")) {
+
+                final Subtask subtask = (Subtask) taskFromString(line, taskManager);
+                if (subtask.getTaskTypeList().equals(TaskTypeList.SUBTASK)) {
+                    listOfIds.add(subtask.getId());
+                    taskManager.addSubtask(subtask);
+                }
+            }
+
+            if (!line.isEmpty() && (!line.contains("TASK") && !line.contains("EPIC") && !line.contains("SUBTASK"))) {
+                List<Integer> history = historyFromString(line);
+                for (Integer ids : history) {
+                    taskManager.getTask(ids);
+                    taskManager.getEpic(ids);
+                    taskManager.getSubtask(ids);
+                }
+            }
+        }
+        return taskManager;
     }
 
-    Но данный код выбивает ошибку чтения файла.
-    И не могу понять логику вызова метода loadFromFile - он должен вызываться автоматически при старте программы вместе
-    с taskManager или же нужно вызвать отдельно класс FileBackedTasksManager fileBackedTasksManager
-     = new FileBackedTasksManager(file), но в данном случае файл читается, но в него не идет запись из taskManager.
-    Получился замкнутый круг, подскажи пожалуйста, как правильно из него выйти?
-    */
 
-    static FileBackedTasksManager loadFromFile(File file) {
-        return null;
-    }
-
-    public String readFileContentsOrNull(String path) {
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл. Возможно файл не находится в нужной директории.");
+    static Task taskFromString(String value, FileBackedTasksManager taskManager) {
+        String[] parts = value.split(","); //id,type,name,status,description,epic
+        int id;
+        String title;
+        String status;
+        String description;
+        int subtaskEpic;
+        if (parts[1].equals("TASK")) {
+            id = Integer.parseInt(parts[0]);
+            title = parts[2];
+            status = parts[3];
+            description = parts[4];
+            return new Task(title, description, Status.valueOf(status),id);
+        } else if (parts[1].equals("EPIC")) {
+            id = Integer.parseInt(parts[0]);
+            title = parts[2];
+            description = parts[4];
+            return new Epic(title, description, id);
+        } else if (parts[1].equals("SUBTASK")) {
+            id = Integer.parseInt(parts[0]);
+            title = parts[2];
+            status = parts[3];
+            description = parts[4];
+            subtaskEpic = Integer.parseInt(parts[5]);
+            return new Subtask(title, description, Status.valueOf(status),
+                    taskManager.getEpic(subtaskEpic), id);
+        } else {
             return null;
         }
     }
+
 
     public void save() {
         try (Writer writer = new FileWriter("workHistory.csv")) {
@@ -148,11 +148,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 allTasks.put(id, subtasks.get(id).toString());
             }
 
-
             for (String value : allTasks.values()) {
                 writer.write(String.format("%s\n", value));
             }
             writer.write("\n");
+
+
 
             List<Task> history = super.getHistory();
             for (int i = 0; i < history.size(); i++) {

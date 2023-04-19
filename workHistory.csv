@@ -2,10 +2,18 @@ id,type,name,status,description,epic
 1,TASK,Помыть машину,NEW,описание1,
 2,TASK,Купить продукты,IN_PROGRESS,описание2,
 3,EPIC,Охота,IN_PROGRESS,Поиск дичи,
-4,SUBTASK,Купить патроны,NEW,Выбрать калибр,3
-5,SUBTASK,Купить ружье,DONE,Посмотреть обзоры на YouTube,3
-6,SUBTASK,Купить корм для собаки,IN_PROGRESS,Посмотреть состав,3
+4,SUBTASK,Купить патроны,NEW,Выбрать калибр,3,
+5,SUBTASK,Купить ружье,DONE,Посмотреть обзоры на YouTube,3,
+6,SUBTASK,Купить корм для собаки,IN_PROGRESS,Посмотреть состав,3,
 7,EPIC,Работа,NEW,описание3,
 8,TASK,ЧТо-то,IN_PROGRESS,desk,
+9,TASK,Помыть машину,NEW,описание1,
+10,TASK,Купить продукты,IN_PROGRESS,описание2,
+11,EPIC,Охота,IN_PROGRESS,Поиск дичи,
+12,SUBTASK,Купить патроны,NEW,Выбрать калибр,11,
+13,SUBTASK,Купить ружье,DONE,Посмотреть обзоры на YouTube,11,
+14,SUBTASK,Купить корм для собаки,IN_PROGRESS,Посмотреть состав,11,
+15,EPIC,Работа,NEW,описание3,
+16,TASK,ЧТо-то,IN_PROGRESS,desk,
 
-2,3,1,
+3,1,2,8,9,10,16,
