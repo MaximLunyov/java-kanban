@@ -25,13 +25,13 @@ public class Main {
 
         Epic epic2 = new Epic("Работа", "описание3");
         taskManager.addEpic(epic2);
-        taskManager.getTask(2);
+        taskManager.getTask(2); //история
 
-        taskManager.getEpic(3);
+        taskManager.getEpic(3); //история
 
         taskManager.getEpicSubtasks(3);
 
-        taskManager.getTask(1);
+        taskManager.getTask(1); //история
 
         Task task3 = new Task("ЧТо-то", "desk", Status.IN_PROGRESS);
         taskManager.addTask(task3);
