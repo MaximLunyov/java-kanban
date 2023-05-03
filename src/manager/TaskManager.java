@@ -6,12 +6,15 @@ import tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     HashMap<Integer, Task> getTasksMap();
     HashMap<Integer, Epic> getEpicsMap();
     HashMap<Integer, Subtask> getSubtasksMap();
     List<Task> getHistory();
+
+    Set<Task> getTaskByPriority();
 
     //Tasks
     void addTask(Task task);
@@ -23,8 +26,6 @@ public interface TaskManager {
     List<Task> getTasks();
 
     void deleteTask(int id);
-
-    void showTasks();
 
     void deleteAllTasks();
 

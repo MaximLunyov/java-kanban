@@ -1,11 +1,38 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Task {
     protected int id;
     protected String title;
     protected Status status;
     protected String description;
     protected TaskTypeList taskTypeList;
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    protected int duration;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
 
 
     public TaskTypeList getTaskTypeList() {
@@ -24,20 +51,26 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String title, String description, Status status) {
+    public Task(String title, String description, Status status, int duration, LocalDateTime startTime) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.taskTypeList = TaskTypeList.TASK;
         this.id = id;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = getEndTime();
     }
 
-    public Task(String title, String description, Status status, int id) {
+    public Task(String title, String description, Status status, int id, int duration, LocalDateTime startTime, LocalDateTime endTime) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.taskTypeList = TaskTypeList.TASK;
         this.id = id;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getId() {
@@ -56,10 +89,14 @@ public class Task {
         this.id = id;
     }
 
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration);
+    }
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s", id, taskTypeList, title, status, description, "");
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",id, duration, startTime, getEndTime(),
+                taskTypeList, title, status, description, "");
     }
 
     public TaskTypeList getType() {

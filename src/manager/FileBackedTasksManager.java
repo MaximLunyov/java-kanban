@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
@@ -51,11 +52,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         String li = lines[0];
         String[] work = li.split("\r?\n");
-       /* Привет, Патимат!
-       * Я изначально и хотел заполнять хранилища, вместо вызова метода, потому что, если я правильно понимаю,
-       * программа так будет быстрее компилироваться и работать, но забыл поинтересоваться как это сделать.
-       * Еще раз спасибо за помощь!
-       * */
         List<Integer> history = Collections.emptyList();
         int generatorId = 0;
         for (int i = 1; i < work.length; i++) {
@@ -93,17 +89,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static Task taskFromString(String value) {
         final String[] values = value.split(",");
         final int id = Integer.parseInt(values[0]);
-        final TaskTypeList type = TaskTypeList.valueOf(values[1]);
-        final String name = values[2];
-        final Status status = Status.valueOf(values[3]);
-        final String description = values[4];
-        if (type == TaskTypeList.TASK) {
-            return new Task(name, description, status, id);
+        final TaskTypeList type = TaskTypeList.valueOf(values[4]);
+        final String name = values[5];
+        final Status status = Status.valueOf(values[6]);
+        final String description = values[7];
+        final int duration = Integer.parseInt(values[1]);
+        final LocalDateTime startTime = LocalDateTime.parse(values[2]);
+        final LocalDateTime endTime = LocalDateTime.parse(values[3]);
+
+        if (type == TaskTypeList.TASK) { //"id,type,name,status,description,epic,duration,startTime,endTime\n"
+            return new Task(name, description, status, id, duration, startTime, endTime );
         } else if ((type == TaskTypeList.SUBTASK)) {
-            final int epicId = Integer.parseInt(values[5]);
-            return new Subtask(id, name, description, status, epicId); //(id, name, description, status, epicId)
+            final int epicId = Integer.parseInt(values[8]);
+            return new Subtask(id, name, description, status, epicId, duration, startTime, endTime); //(id, name, description, status, epicId)
         } else {
-            return new Epic(name, description, id, status);
+            return new Epic(name, description, id, status, duration, startTime, endTime);
         }
     }
 
@@ -122,9 +122,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        try (Writer writer = new FileWriter("workHistory.csv")) {
+        try (Writer writer = new FileWriter(fileName)) {
 
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,duration,startTime,endTime,type,name,status,description,epic\n");
             HashMap<Integer, String> allTasks = new HashMap<>();
 
             HashMap<Integer, Task> tasks = super.getTasksMap();
