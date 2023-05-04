@@ -46,6 +46,7 @@ public class Main {
 
         System.out.println(taskManager.getTaskByPriority());
         taskManager.deleteTask(task3.getId());
+        taskManager.deleteSubtask(subtask3.getId());
         System.out.println(taskManager.getTaskByPriority());
     }
 }

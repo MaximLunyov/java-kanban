@@ -9,6 +9,9 @@ public class Task {
     protected Status status;
     protected String description;
     protected TaskTypeList taskTypeList;
+    protected int duration;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
 
     public int getDuration() {
         return duration;
@@ -29,11 +32,6 @@ public class Task {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
-
-    protected int duration;
-    protected LocalDateTime startTime;
-    protected LocalDateTime endTime;
-
 
     public TaskTypeList getTaskTypeList() {
         return taskTypeList;
@@ -90,7 +88,11 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
-        return startTime.plusMinutes(duration);
+        if (startTime != null){
+            return startTime.plusMinutes(duration);
+        } else {
+            return LocalDateTime.of(2023, 1, 1, 0, 1);
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -305,8 +306,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
         expected.addAll(taskManager.getTasks());
         expected.addAll(taskManager.getSubtasks());
 
-        Set<Task> actual = taskManager.getTaskByPriority();
+        List<Task> actual = taskManager.getTaskByPriority();
 
-        assertEquals(expected, actual);
+        assertEquals(expected.stream().collect(Collectors.toList()), actual);
     }
 }

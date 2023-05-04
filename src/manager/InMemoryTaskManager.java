@@ -7,6 +7,7 @@ import tasks.Task;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected int id;
@@ -22,6 +23,17 @@ public class InMemoryTaskManager implements TaskManager {
         epics = new HashMap<>();
     }
 
+    protected Set<Task> sortedTasks = new TreeSet<>((task1, task2) -> {
+        if ((task1.getStartTime() != null) && (task2.getStartTime() != null)) {
+            return task1.getStartTime().compareTo(task2.getStartTime());
+        } else if (task1.getStartTime() == null) {
+            return 1;
+        } else if (task2.getStartTime() == null) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
 
     @Override
     public HashMap<Integer, Task> getTasksMap() {
@@ -45,37 +57,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Set<Task> getTaskByPriority() {
-        return sortedTasks;
+    public List<Task> getTaskByPriority() {
+        return sortedTasks.stream().collect(Collectors.toList());
     }
-
-    private void checkTaskSameTime(Task task) {
-        LocalDateTime startTime = task.getStartTime(); //5:00
-        LocalDateTime finishTime = task.getEndTime(); //6:00
-        Set<Task> listOfTasks = getTaskByPriority();
-
-        for (Task tasks : listOfTasks) {
-            LocalDateTime checkedStart = tasks.getStartTime(); //6:00
-            LocalDateTime checkedFinish = tasks.getEndTime();  //7:00
-
-            if ((startTime.isAfter(checkedStart) && startTime.isBefore(checkedFinish))
-                    || (finishTime.isAfter(checkedStart) && finishTime.isBefore(checkedFinish)) || (startTime.isEqual(checkedStart) && finishTime.isEqual(checkedFinish))) {
-                throw new RuntimeException("Задачи не могут выполнятся одновременно! (Если вы не Гай Юлий Цезарь:))");
-            }
-        }
-    }
-
-    protected Set<Task> sortedTasks = new TreeSet<>((task1, task2) -> {
-        if ((task1.getStartTime() != null) && (task2.getStartTime() != null)) {
-            return task1.getStartTime().compareTo(task2.getStartTime());
-        } else if (task1.getStartTime() == null) {
-            return 1;
-        } else if (task2.getStartTime() == null) {
-            return -1;
-        } else {
-            return 0;
-        }
-    });
 
     @Override
     public void addTask(Task task) {
@@ -90,7 +74,6 @@ public class InMemoryTaskManager implements TaskManager {
         sortedTasks.remove(task);
         checkTaskSameTime(task);
         tasks.put(task.getId(), task);
-        sortedTasks.remove(task);
         sortedTasks.add(task);
     }
 
@@ -304,7 +287,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //epicsStatusChecking
-    @Override
     public void checkEpicStatus(Epic epic) {
 
         if (epic.getEpicSubtasks().isEmpty()) {
@@ -332,6 +314,21 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(Status.IN_PROGRESS);
         }
+    }
 
+    private void checkTaskSameTime(Task task) {
+        LocalDateTime startTime = task.getStartTime(); //5:00
+        LocalDateTime finishTime = task.getEndTime(); //6:00
+        List<Task> listOfTasks = getTaskByPriority();
+
+        for (Task tasks : listOfTasks) {
+            LocalDateTime checkedStart = tasks.getStartTime(); //6:00
+            LocalDateTime checkedFinish = tasks.getEndTime();  //7:00
+
+            if ((startTime.isAfter(checkedStart) && startTime.isBefore(checkedFinish))
+                    || (finishTime.isAfter(checkedStart) && finishTime.isBefore(checkedFinish)) || (startTime.isEqual(checkedStart) && finishTime.isEqual(checkedFinish))) {
+                throw new RuntimeException("Задачи не могут выполнятся одновременно! (Если вы не Гай Юлий Цезарь:))");
+            }
+        }
     }
 }
