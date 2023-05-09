@@ -3,8 +3,8 @@ package manager;
 import java.io.File;
 
 public class Managers {
-    public static TaskManager getDefault() {
-        return new FileBackedTasksManager(new File("/java-kanban/workHistory.csv"));
+    public static TaskManager getDefault(String url, String key) {
+        return new HttpTaskManager(url, key);
     }
 
     public static HistoryManager getDefaultHistory() {
