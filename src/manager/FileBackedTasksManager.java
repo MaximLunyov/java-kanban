@@ -20,15 +20,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         this.file = file;
         fileName = file.getName();
         file = new File(fileName);
-            if (!file.isFile()) {
-                try {
-                    Files.createFile(Path.of(fileName));
-                } catch (IOException e) {
-                    throw new ManagerCreateException("Ошибка! Файл не может быть создан." + e);
-                }
-            } else {
-                loadFromFile(this, file);
+        if (!file.isFile()) {
+            try {
+                Files.createFile(Path.of(fileName));
+            } catch (IOException e) {
+                throw new ManagerCreateException("Ошибка! Файл не может быть создан." + e);
             }
+        } else {
+            loadFromFile(this, file);
+        }
     }
 
     static List<Integer> historyFromString(String value) {
@@ -101,6 +101,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             return new Task(name, description, status, id, duration, startTime, endTime );
         } else if ((type == TaskTypeList.SUBTASK)) {
             final int epicId = Integer.parseInt(values[8]);
+            //Epic epic = new Epic("test", "test", epicId, Status.NEW, duration, startTime, endTime);
             return new Subtask(id, name, description, status, epicId, duration, startTime, endTime); //(id, name, description, status, epicId)
         } else {
             return new Epic(name, description, id, status, duration, startTime, endTime);
@@ -109,15 +110,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public void addTaskToHistory (Task task) {
         switch (task.getType()) {
-            case TASK:
+            case TASK -> {
+                sortedTasks.add(task);
                 tasks.put(task.getId(), task);
-                break;
-            case SUBTASK:
+            }
+            case SUBTASK -> {
+                Subtask subtask = (Subtask) task;
+                if (epics.containsKey(subtask.getEpicIdH())) {
+                    Epic epic = epics.get(subtask.getEpicIdH());
+                    epic.addSubtask(task.getId());
+                    sortedTasks.add(subtask);
+                    epics.put(epic.getId(), epic);
+                }
                 subtasks.put(task.getId(), (Subtask) task);
-                break;
-            case EPIC:
+            }
+            case EPIC -> {
                 epics.put(task.getId(), (Epic) task);
-                break;
+            }
         }
     }
 
@@ -139,11 +148,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
             HashMap<Integer, Subtask> subtasks = super.getSubtasksMap();
             for (Integer id : subtasks.keySet()) {
-                if (subtasks.get(id).getEpic() == null) {
-                    allTasks.put(id, subtasks.get(id).toStringHistory());
-                } else {
-                    allTasks.put(id, subtasks.get(id).toString());
-                }
+                allTasks.put(id, subtasks.get(id).toStringHistory());
             }
 
             for (String value : allTasks.values()) {
@@ -160,8 +165,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Ошибка записи файла.");
         }
     }
-
-
 
 
     @Override

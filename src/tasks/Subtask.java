@@ -3,8 +3,17 @@ package tasks;
 import java.time.LocalDateTime;
 
 public class Subtask extends Task {
-    protected Epic epic;
-    protected int epicIdH;
+     protected Epic epic;//transient
+
+    public int getEpicIdH() {
+        return epicIdH;
+    }
+
+    public void setEpicIdH(int epicIdH) {
+        this.epicIdH = epicIdH;
+    }
+
+    protected int epicIdH; //
 
     public Subtask(String title, String description, Status status) {
         super(title, description ,status, 0, LocalDateTime.MAX);
@@ -19,11 +28,11 @@ public class Subtask extends Task {
     }
 
     public Subtask(int id, String title, String description, Status status,
-                   int epicId, int duration, LocalDateTime startTime, LocalDateTime endTime) {
+                   Integer epicIdH, int duration, LocalDateTime startTime, LocalDateTime endTime) {
         super(title, description, status, duration, startTime);
         this.id = id;
         this.taskTypeList = TaskTypeList.SUBTASK;
-        this.epicIdH = epicId;
+        this.epicIdH = epicIdH;
         this.duration = duration;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -38,7 +47,7 @@ public class Subtask extends Task {
     }
 
     public String toStringHistory() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", id, duration,startTime, endTime, taskTypeList, title, status, description, epicIdH);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", id, duration,startTime, endTime, taskTypeList, title, status, description, epicIdH);//epicIdH
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import static java.net.HttpURLConnection.*;
 
 public class KVTaskClient {
 
@@ -26,7 +27,7 @@ public class KVTaskClient {
         try {
             response = client.send(request, handler);
 
-            if (response.statusCode() != 200) {
+            if (response.statusCode() != HTTP_OK) {
                 throw new RuntimeException();
             }
         } catch (IOException | InterruptedException e) {
@@ -43,7 +44,7 @@ public class KVTaskClient {
         try {
             response = client.send(request, handler);
             System.out.println(response.statusCode());
-            if (response.statusCode() != 200) {
+            if (response.statusCode() != HTTP_OK) {
                 throw new RuntimeException();
             }
         } catch (IOException | InterruptedException e) {
@@ -58,7 +59,7 @@ public class KVTaskClient {
                 .header("Accept", "application/json").build();
         try {
             response = client.send(request, handler);
-            if (response.statusCode() != 200) {
+            if (response.statusCode() != HTTP_OK) {
                 throw new RuntimeException();
             }
         } catch (IOException | InterruptedException e) {

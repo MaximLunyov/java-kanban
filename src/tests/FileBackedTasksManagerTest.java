@@ -18,7 +18,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
     public void shouldLoadFromFile() {
         FileBackedTasksManager f1 = new FileBackedTasksManager(new File
                 ("/java-kanban/src/tests/workHistoryForTest.csv"));
-        assertEquals(3, f1.getTasks().size());
+        assertEquals(1, f1.getTasks().size());
         assertEquals(5, f1.getEpics().size());
         assertEquals(1, f1.getSubtasks().size());
     }

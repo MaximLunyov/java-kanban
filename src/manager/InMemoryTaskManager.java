@@ -35,6 +35,11 @@ public class InMemoryTaskManager implements TaskManager {
         }
     });
 
+    public void addToSortedTask(Task task) {
+        checkTaskSameTime(task);
+        sortedTasks.add(task);
+    }
+
     @Override
     public HashMap<Integer, Task> getTasksMap() {
         return tasks;

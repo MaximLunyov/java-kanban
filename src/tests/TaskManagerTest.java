@@ -32,8 +32,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @BeforeEach
     public void beforeEach() {
         taskManager = createTaskManager();
-        firstTask = new Task("Тест 1", "описание1", Status.NEW, 10, LocalDateTime.of(2023, 5, 2, 23, 20));
-        secondTask = new Task("Тест 2", "описание2", Status.DONE, 32, LocalDateTime.of(2023, 9, 2, 16, 20));
+        firstTask = new Task("Тест 1", "описание1", Status.NEW, 10, LocalDateTime.of(2024, 5, 2, 23, 20));
+        secondTask = new Task("Тест 2", "описание2", Status.DONE, 32, LocalDateTime.of(2024, 9, 2, 16, 20));
         firstEpic = new Epic("Epic 1", "desc3");
         secondEpic = new Epic("Epic2", "desc4");
         firstSubtask = new Subtask("Subtask1", "desc5", Status.IN_PROGRESS, firstEpic,32, LocalDateTime.of(2023, 6, 2, 16, 20));
@@ -63,6 +63,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void shouldNotGetTask() {
+        taskManager.deleteAllTasks();
         taskManager.addTask(firstTask);
         assertNotNull(firstTask, "Заданный Task не найден!");
         assertNull(taskManager.getTask(999999));
@@ -94,11 +95,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void shouldDeleteAllTasks() {
+        taskManager.deleteAllTasks();
         taskManager.addTask(firstTask);
         taskManager.addTask(secondTask);
         List<Task> testList = new ArrayList<>();
         taskManager.deleteAllTasks();
-        assertArrayEquals(testList.toArray() ,taskManager.getTasks().toArray());
+        assertEquals(testList ,taskManager.getTasks());
     }
 //Epics
     @Test
@@ -159,7 +161,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.addEpic(secondEpic);
         List<Epic> testList = new ArrayList<>();
         taskManager.deleteAllEpics();
-        assertArrayEquals(testList.toArray() ,taskManager.getEpics().toArray());
+        assertEquals(testList ,taskManager.getEpics());
     }
 //Subtasks
     @Test

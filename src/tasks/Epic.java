@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class Epic extends Task {
 
     protected ArrayList<Integer> epicSubtasks;
-    LocalDateTime endTime;
 
     @Override
     public LocalDateTime getEndTime() {
@@ -46,5 +45,9 @@ public class Epic extends Task {
 
     public void setEpicSubtasks(ArrayList<Integer> epicSubtasks) {
         this.epicSubtasks = epicSubtasks;
+    }
+
+    public void addSubtask(int subtaskId) {
+        epicSubtasks.add(subtaskId);
     }
 }
