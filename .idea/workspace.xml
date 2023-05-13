@@ -5,75 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4a0b85a-0eb0-4b50-9245-7a74df50d944" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/java-kanban.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/test/testFiles.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/test/testFiles1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/test/testFiles2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/test/testFiles3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/testFiles.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/testFiles2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/out/production/java-kanban/manager/testFiles3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/exception/ManagerSaveException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/FileBackedTasksManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/HTTPTaskManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/HistoryManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/InMemoryHistoryManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/InMemoryTaskManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/Managers.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/TaskManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/FileBackedTasksManagerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/HTTPTaskManagerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/HttpTaskServerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/InMemoryTaskManagerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/TaskManagerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/testFiles.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/testFiles1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/testFiles2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/test/testFiles3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/testFiles.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/testFiles2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/manager/testFiles3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/HttpTaskServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/KVServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/KVTaskClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/adapters/FileAdapter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/adapters/HistoryManagerAdapter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/servers/adapters/LocalDateTimeAdapter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/task/Epic.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/task/Subtask.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/task/Task.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/task/TaskStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/src/task/TaskType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban-main/testFiles.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban.iml" beforeDir="false" afterPath="$PROJECT_DIR$/java-kanban.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manager/FileBackedTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/manager/FileBackedTasksManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/manager/HttpTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/manager/HttpTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manager/InMemoryTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/manager/InMemoryTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manager/Managers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/manager/Managers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servers/HttpTaskServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servers/HttpTaskServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servers/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servers/KVServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/servers/KVTaskClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servers/KVTaskClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tasks/Epic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tasks/Epic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tasks/Subtask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tasks/Subtask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/FileBackedTasksManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/FileBackedTasksManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/TaskManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/TaskManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workHistory.csv" beforeDir="false" afterPath="$PROJECT_DIR$/workHistory.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workHistoryForTest.csv" beforeDir="false" afterPath="$PROJECT_DIR$/workHistoryForTest.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +45,14 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.HttpTaskServerTest">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="java-kanban" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="HttpTaskServerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <extension name="coverage">
@@ -176,29 +116,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HttpTaskServerTest.shouldNotGetSubtasksInEpicByEpicId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-kanban" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tests" />
-      <option name="MAIN_CLASS_NAME" value="tests.HttpTaskServerTest" />
-      <option name="METHOD_NAME" value="shouldNotGetSubtasksInEpicByEpicId" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.HttpTaskServerTest" />
         <item itemvalue="JUnit.HttpTaskServerTest.shouldGetSubtasksInEpicByEpicId" />
         <item itemvalue="JUnit.HttpTaskServerTest.shouldGetPrioritizedTasks" />
         <item itemvalue="JUnit.HttpTaskServerTest.shouldGetHistory" />
-        <item itemvalue="JUnit.HttpTaskServerTest.shouldNotGetSubtasksInEpicByEpicId" />
       </list>
     </recent_temporary>
   </component>

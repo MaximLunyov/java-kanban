@@ -50,12 +50,20 @@ public class HttpTaskManager extends FileBackedTasksManager {
     private void load() {
         ArrayList<Task> tasks = gson.fromJson(client.load("tasks"), new TypeToken<ArrayList<Task>>() {
         }.getType());
-        System.out.println(epics.values());
         ArrayList<Epic> epics = gson.fromJson(client.load("epics"), new TypeToken<ArrayList<Epic>>() {
         }.getType());
         ArrayList<Subtask> subtasks = gson.fromJson(client.load("subtasks"), new TypeToken<ArrayList<Subtask>>() {
         }.getType());
+        ArrayList<Integer> history = gson.fromJson(client.load("history"), new TypeToken<ArrayList<Integer>>() {
+        }.getType());
+
         int generatorId = 0;
+
+        for (Integer count : history) {
+            historyManager.add(tasks.get(count));
+            historyManager.add(epics.get(count));
+            historyManager.add(subtasks.get(count));
+        }
 
         for (Task task : tasks) {
             final int id = task.getId();
